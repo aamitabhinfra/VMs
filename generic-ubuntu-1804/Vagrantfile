@@ -1,0 +1,74 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+# Documentation: https://docs.vagrantup.com.
+# Common boxes at https://vagrantcloud.com/search.
+# Hyper-V Documentation: https://www.vagrantup.com/docs/hyperv/configuration.html#enable_checkpoints
+
+# Load parameters file
+require 'yaml'
+CWD = File.dirname(File.expand_path(__FILE__))
+PARAMS = YAML.load_file(File.join(File.dirname(__FILE__), 'params.yml'))
+
+# Make the machine
+Vagrant.configure("2") do |config|
+
+  # Disable automatic box update checking. If you disable this, then
+  # boxes will only be checked for updates when the user runs
+  # `vagrant box outdated`. This is not recommended.
+  # config.vm.box_check_update = false
+
+  # Custom: Need to understand what this does
+  # config.vm.synced_folder ".", "/vagrant", disabled: true
+
+  # Define VM
+  VMNAME = PARAMS["name"]
+  BOX = PARAMS["box"]
+  RAM = PARAMS["ram"]
+  CPU = PARAMS["cpu"]
+  config.vm.define VMNAME do |subconfig|
+    config.vm.box = BOX
+    subconfig.vm.network "public_network", bridge: "External Virtual Switch"
+    subconfig.vm.hostname = PARAMS["name"]
+    subconfig.vm.provider :hyperv do |v, override|
+      v.vmname = VMNAME
+      v.maxmemory = RAM
+      v.memory = RAM
+      v.cpus = CPU
+      v.enable_virtualization_extensions = true
+      v.linked_clone = true
+      v.enable_checkpoints = false # enable for production
+      v.auto_start_action = "Start" # autostart VM on host startup
+      v.vm_integration_services = {
+        guest_service_interface: true,
+        heartbeat: true,
+        key_value_pair_exchange: true,
+        shutdown: true,
+        time_synchronization: true,
+        # vss: true
+      }
+    end
+  end
+
+  # Execute startup script
+  config.vm.provision "shell", path: "setup.sh"
+  # config.vm.provision "shell", path: "../../Scripts/Ubuntu/install-vagrant-keys.sh"
+  # config.vm.provision "shell", path: "../../Scripts/Ubuntu/install-ubuntu-desktop.sh"
+
+  # Configure triggers: https://www.vagrantup.com/docs/triggers/
+  config.trigger.after :up do |trigger|
+    trigger.name = "Finished Message"
+    trigger.info = "Machine is up!"
+  end
+
+  # How to copy folder from host to guest
+  # https://www.vagrantup.com/docs/provisioning/file.html
+  # config.vm.provision "file", source: "~/path/to/host/folder", destination: "$HOME/remote/newfolder"
+
+  # need a way of getting the IP address for a hostname.
+  # For this, we’ll use DNS – or mDNS to be more precise.
+  # On Ubuntu, mDNS is provided by Avahi (implements Apple's Zeroconf architecture)
+  config.vm.provision "shell", inline: <<-SHELL
+    apt-get install -y avahi-daemon libnss-mdns > /dev/null 2>&1
+  SHELL
+
+end
