@@ -15,18 +15,20 @@ echo "Installing Git"
     git config --global user.email "amitabh.arora@gmail.com"
     git config --list
 
-echo "Installing VSCode"
-   sudo apt-get update -y > /dev/null
-   sudo apt-get upgrade -y > /dev/null
-   sudo apt-get install gnupg2 -y > /dev/null
-   sudo curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
-   sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
-   sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
-   sudo apt-get update -y > /dev/null
-   sudo apt-get install -y code > /dev/null
+# echo "Installing VSCode"
+#    sudo apt-get update -y > /dev/null
+#    sudo apt-get upgrade -y > /dev/null
+#    sudo apt-get install gnupg2 -y > /dev/null
+#    sudo curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
+#    sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
+#    sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" > /etc/apt/sources.list.d/vscode.list'
+#    sudo apt-get update -y > /dev/null
+#    sudo apt-get install -y code > /dev/null
 
-echo "Installing Ubuntu Desktop"
-    sudo apt-get install -y --no-install-recommends ubuntu-desktop > /dev/null
+# echo "Installing Ubuntu Desktop"
+#     sudo apt install tasksel
+#     sudo tasksel install ubuntu-desktop
+    # sudo apt-get install -y --no-install-recommends ubuntu-desktop > /dev/null
 
 echo "Installing Chrome"
     wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > /dev/null
