@@ -1,5 +1,5 @@
 ---
-name: "main"
+name: "main2"
 box: "generic/ubuntu1804"
 ram: 2048
 cpu: 2

@@ -1,4 +1,5 @@
 echo "Installing VSCode"
+    export DEBIAN_FRONTEND=noninteractive
     sudo apt-get update -y > /dev/null
     sudo apt-get upgrade -y > /dev/null
     sudo apt-get install gnupg2 -y

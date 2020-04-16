@@ -1,3 +1,4 @@
 echo "Update / Upgrade Ubuntu"
-    sudo apt-get update -y > /dev/null
-    sudo apt-get upgrade -y > /dev/null
+    export DEBIAN_FRONTEND=noninteractive
+    sudo apt-get update -y 1> apt.out 2> apt.err
+    sudo apt-get upgrade -y 1> apt.out 2> apt.err
