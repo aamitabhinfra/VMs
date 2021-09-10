@@ -51,7 +51,7 @@ Vagrant.configure("2") do |config|
 
   # Execute startup script
   # config.vm.provision "shell", path: "setup.sh"
-  config.vm.provision "shell", path: "../Scripts/Ubuntu/run-updateugrade.sh"
+  config.vm.provision "shell", path: "../Scripts/Ubuntu/run-updateupgrade.sh"
   # config.vm.provision "shell", path: "../Scripts/Ubuntu/install-ubuntu-desktop.sh"
 
   # Configure triggers: https://www.vagrantup.com/docs/triggers/
