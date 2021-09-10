@@ -1,0 +1,5 @@
+---
+name: "calibre"
+box: "generic/ubuntu2004"
+ram: 2048
+cpu: 2
