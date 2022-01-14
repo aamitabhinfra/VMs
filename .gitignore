@@ -6,6 +6,7 @@
 *~
 
 # Vagrant stuff
+.vagrant/
 acceptance_config.yml
 boxes/*
 /.vagrant
