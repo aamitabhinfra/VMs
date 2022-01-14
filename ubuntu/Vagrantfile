@@ -7,7 +7,7 @@
 # Load parameters file
 require 'yaml'
 CWD = File.dirname(File.expand_path(__FILE__))
-PARAMS = YAML.load_file(File.join(File.dirname(__FILE__), 'params.yml'))
+# PARAMS = YAML.load_file(File.join(File.dirname(__FILE__), 'params.yml'))
 
 # Make the machine
 Vagrant.configure("2") do |config|
@@ -21,14 +21,15 @@ Vagrant.configure("2") do |config|
   # config.vm.synced_folder ".", "/vagrant", disabled: true
 
   # Define VM
-  VMNAME = PARAMS["name"]
-  BOX = PARAMS["box"]
-  RAM = PARAMS["ram"]
-  CPU = PARAMS["cpu"]
+  VMNAME = ENV["VAGRANT_NAME"]
+  BOX = ENV["VAGRANT_BOX"]
+  RAM = ENV["VAGRANT_RAM"]
+  CPU = ENV["VAGRANT_CPU"]
   config.vm.define VMNAME do |subconfig|
+    config.vm.provider "hyperv"
     config.vm.box = BOX
     subconfig.vm.network "public_network", bridge: "External Virtual Switch"
-    subconfig.vm.hostname = PARAMS["name"]
+    subconfig.vm.hostname = VMNAME
     subconfig.vm.provider :hyperv do |v, override|
       v.vmname = VMNAME
       v.maxmemory = RAM
